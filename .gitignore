@@ -1,0 +1,14 @@
+.idea
+__pycache__
+*.sh
+!entrypoint.sh
+dist
+*.egg-info
+build
+.vscode
+*.pyi
+test
+bak
+pipelines
+venv/
+*.db

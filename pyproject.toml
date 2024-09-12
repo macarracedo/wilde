@@ -1,0 +1,61 @@
+[project]
+name = "wilde"
+version = "1.0.dev66"
+authors = [
+  { name = "Manuel Alonso Carracedo", email = "manuelalonsocarracedo@gmail.com" },
+  { name = "Iago Gómez Salgado", email = "igsalgado@protonmail.com" },
+  { name = "Miguel Reboiro-Jato", email = "mrjato@uvigo.gal" }
+]
+description = "WILDE: Internet Location Data Enrichment"
+keywords = ["internet", "url", "domain", "ip", "data enrichment"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { "file" = "LICENSE" }
+classifiers = [
+  "Programming Language :: Python :: 3.10",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries"
+]
+
+dependencies = [
+  "Flask==3.0.3",
+  "requests==2.31.0",
+  "schedule==1.2.1",
+  "SQLAlchemy==2.0.30",
+  "validators==0.28.1"
+]
+
+[project.urls]
+source = "https://github.com/sing-group/wilde"
+
+[project.optional-dependencies]
+dev = [
+  "behave==1.2.6",
+  "mypy==1.10.0",
+  "PyHamcrest==2.1.0",
+  "pyroma==4.2",
+  "twine==5.0.0",
+  "types-requests==2.31.0.20240406"
+]
+mssql = [
+  "pymssql==2.3.0"
+]
+
+[build-system]
+requires = ["build==1.2.1", "setuptools==69.5.1", "wheel==0.43.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["py.typed", "*.pyi", "*.html"]
+
+[tool.behave]
+paths = "src/wilde/tests/"
+
+[project.scripts]
+wilde = "wilde.rest.app:main"

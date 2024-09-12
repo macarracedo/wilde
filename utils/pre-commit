@@ -1,0 +1,27 @@
+#!/bin/bash
+
+CONFIG_FILE="pyproject.toml";
+
+# Check is ignored in amend commits
+if ps -ocommand= -p $PPID | grep -e "--amend"; then
+    exit 0;
+fi
+
+version_pattern="[0-9]+\.[0-9]+\.(dev)?[0-9]+";
+
+# Check if config file is staged
+if git diff --cached --name-only | grep -qE "^${CONFIG_FILE}$"; then
+    staged_version=$(git show :${CONFIG_FILE} | grep -E "^\s*version\s*=\s*\"${version_pattern}\"" | grep -o -E "${version_pattern}");
+
+    head_version=$(git show HEAD:${CONFIG_FILE} | grep -E "^\s*version\s*=\s*\"${version_pattern}\"" | grep -o -E "${version_pattern}");
+
+    if [[ "$staged_version" == "$head_version" ]]; then
+        echo "Error: You must update the version in ${CONFIG_FILE} before committing.";
+        exit 1;
+    fi;
+else
+    echo "Error: You must update the version in ${CONFIG_FILE} before committing.";
+    exit 1;
+fi;
+
+exit 0;
